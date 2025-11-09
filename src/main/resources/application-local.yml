@@ -5,3 +5,35 @@ spring:
   docker:
     compose:
       enabled: true
+
+  # --- Datasource Configuration ---
+  datasource:
+
+    # MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/map_of_memory_db
+    username: root
+    password: ${MYSQL_ROOT_PASSWORD}
+
+  # --- JPA & Hibernate Configuration ---
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: true
+
+  # --- Paging Configuration ---
+  data:
+    web:
+      pageable:
+        default-page-size: 10 # 기본 페이지 사이즈
+        max-page-size: 1000 # 최대 페이지 사이즈
+
+  liquibase:
+    change-log: classpath:/db/db.changelog-master.yaml
+    enabled: true
+    contexts: local

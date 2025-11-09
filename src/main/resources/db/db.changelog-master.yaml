@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - includeAll:
+      path: ./changelog
+      relativeToChangelogFile: true
+      filter: com.mapofmemory.global.config.LiquibaseIncludeAllFilter
