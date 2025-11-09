@@ -23,17 +23,30 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 ### 반드시 해낼 것
 
-- 핵심 MVP 구현
-- 로컬 개발 환경 국축
+- 핵심 MVP 도메인: `Member`, `Memory`, `Like`
+- 핵심 MVP API
+    - `POST /members`: 회원 가입
+    - `GET /members/{memberId}`: 회원 정보 조회
+    - `POST /memories?memberId={memberId}`: 이야기 작성
+    - `GET /memories/{id}`: 이야기 단건 조회
+    - `GET /memories?lat=...`: 이야기 리스트 조회
+    - `PUT /memories/{id}?memberId={memberId}`: 이야기 수정
+    - `DELETE /memories/{id}?memberId={memberId}`: 이야기 삭제
+    - `POST /memories/{id}/like?memberId={memberId}`: 좋아요
+    - `DELETE /memories/{id}/like?memberId={memberId}`: 좋아요 취소
+
+- 로컬 개발 환경 구축
 - 객체지향적 설계
 - 테스트 코드
 
 ### 의식적으로 포기할 것
 
 - CI/CD 및 클라우드 배포
-- 사용자 인증/인가 (Spring Security)
 - 이미지 및 파일 업로드 (Storage)
 - 1단계에서의 모든 고도화 시도
+
+### 고민해볼 것
+- 사용자 인증/인가 (Spring Security)
 
 ## 계획
 
