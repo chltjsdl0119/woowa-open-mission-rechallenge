@@ -2,7 +2,9 @@ package com.mapofmemory.member.application;
 
 import com.mapofmemory.global.exception.BusinessException;
 import com.mapofmemory.global.exception.GeneralErrorCode;
+import com.mapofmemory.global.util.ConverterUtils;
 import com.mapofmemory.member.application.dto.CreateMemberRequest;
+import com.mapofmemory.member.application.dto.MemberInfoResponse;
 import com.mapofmemory.member.domain.Member;
 import com.mapofmemory.member.domain.repository.MemberRepository;
 import com.mapofmemory.member.domain.service.MemberService;
@@ -30,5 +32,14 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
         return memberRepository.save(member).getId();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public MemberInfoResponse findMemberById(Long memberId) {
+        Member member = memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMBER_NOT_FOUND));
+
+        return ConverterUtils.map(member, MemberInfoResponse::from);
     }
 }
