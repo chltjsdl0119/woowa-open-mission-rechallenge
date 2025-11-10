@@ -25,7 +25,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 핵심 MVP 도메인: `Member`, `Memory`, `Like`
 - 핵심 MVP API
-    - `POST /members`: 회원 가입
+    - `POST /members`: 회원 등록
     - `GET /members/{memberId}`: 회원 정보 조회
     - `POST /memories?memberId={memberId}`: 이야기 작성
     - `GET /memories/{id}`: 이야기 단건 조회
