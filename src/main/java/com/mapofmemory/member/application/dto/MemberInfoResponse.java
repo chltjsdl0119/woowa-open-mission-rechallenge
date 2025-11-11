@@ -5,14 +5,16 @@ import com.mapofmemory.member.domain.Member;
 public record MemberInfoResponse(
         Long id,
         String name,
-        String nickname
+        String nickname,
+        int age
 ) {
 
     public static MemberInfoResponse from(Member member) {
         return new MemberInfoResponse(
                 member.getId(),
                 member.getName(),
-                member.getNickname()
+                member.getNickname(),
+                member.getAge()
         );
     }
 }
