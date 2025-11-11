@@ -36,7 +36,7 @@ public class MemoryController {
     }
 
     @GetMapping("/{memoryId}")
-    public ResponseEntity<CommonResponse<MemoryInfoResponse>> getMemory(@RequestParam Long memoryId) {
+    public ResponseEntity<CommonResponse<MemoryInfoResponse>> getMemory(@PathVariable Long memoryId) {
         MemoryInfoResponse response = memoryService.findMemoryById(memoryId);
         return ResponseEntity.ok(CommonResponse.onSuccess(response));
     }
