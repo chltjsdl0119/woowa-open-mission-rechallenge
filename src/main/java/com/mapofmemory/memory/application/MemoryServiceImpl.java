@@ -72,4 +72,15 @@ public class MemoryServiceImpl implements MemoryService {
 
         return ConverterUtils.map(memory, MemoryInfoResponse::from);
     }
+
+    @Transactional
+    @Override
+    public void deleteMemory(Long memoryId, Long memberId) {
+        Memory memory = memoryRepository.findMemoryById(memoryId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
+
+        memory.validateMember(memberId);
+
+        memoryRepository.delete(memory);
+    }
 }

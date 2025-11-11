@@ -31,7 +31,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
     - `GET /memories/{memoryId}`: 이야기 단건 조회
     - `GET /memories?memberId={memberId}`: 이야기 리스트(페이지네이션) 조회
     - `PUT /memories/{memoryId}?memberId={memberId}`: 이야기 수정
-    - `DELETE /memories/{id}?memberId={memberId}`: 이야기 삭제
+    - `DELETE /memories/{memoryId}?memberId={memberId}`: 이야기 삭제
     - `POST /memories/{id}/like?memberId={memberId}`: 좋아요
     - `DELETE /memories/{id}/like?memberId={memberId}`: 좋아요 취소
 

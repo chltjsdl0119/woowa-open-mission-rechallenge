@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,11 @@ public class MemoryController {
     public ResponseEntity<CommonResponse<MemoryInfoResponse>> updateMemory(@PathVariable Long memoryId, @RequestParam Long memberId, @RequestBody UpdateMemoryRequest request) {
         MemoryInfoResponse response = memoryService.updateMemory(memoryId, memberId, request);
         return ResponseEntity.ok(CommonResponse.onSuccess(response));
+    }
+
+    @DeleteMapping("/{memoryId}")
+    public ResponseEntity<CommonResponse<Void>> deleteMemory(@PathVariable Long memoryId, @RequestParam Long memberId) {
+        memoryService.deleteMemory(memoryId, memberId);
+        return ResponseEntity.ok(CommonResponse.onSuccess(null));
     }
 }

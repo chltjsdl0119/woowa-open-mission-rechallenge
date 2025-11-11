@@ -15,4 +15,6 @@ public interface MemoryService {
     PageResponse<MemoryInfoResponse> findAllByMemberId(Long memberId, Pageable pageable);
 
     MemoryInfoResponse updateMemory(Long memoryId, Long MemberId, UpdateMemoryRequest request);
+
+    void deleteMemory(Long memoryId, Long memberId);
 }
