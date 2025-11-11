@@ -37,4 +37,19 @@ public class LikeServiceImpl implements LikeService {
 
         return likeRepository.save(like).getId();
     }
+
+    @Transactional
+    @Override
+    public void unlikeMemory(Long memberId, Long memoryId) {
+        Member member = memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMBER_NOT_FOUND));
+
+        Memory memory = memoryRepository.findMemoryById(memoryId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
+
+        Like like = likeRepository.findByMemberAndMemory(member, memory)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.LIKE_NOT_FOUND));
+
+        likeRepository.delete(like);
+    }
 }

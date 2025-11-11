@@ -64,4 +64,10 @@ public class MemoryController {
         Long likeId = likeService.likeMemory(memberId, memoryId);
         return ResponseEntity.ok(CommonResponse.onSuccess(likeId));
     }
+
+    @DeleteMapping("/{memoryId}/like")
+    public ResponseEntity<CommonResponse<Void>> unlikeMemory(@PathVariable Long memoryId, @RequestParam Long memberId) {
+        likeService.unlikeMemory(memberId, memoryId);
+        return ResponseEntity.ok(CommonResponse.onSuccess(null));
+    }
 }

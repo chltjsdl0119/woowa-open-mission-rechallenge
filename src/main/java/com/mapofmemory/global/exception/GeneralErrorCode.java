@@ -12,6 +12,7 @@ public enum GeneralErrorCode implements ErrorCode {
     DUPLICATE_NICKNAME("이미 사용 중인 닉네임입니다.", HttpStatus.CONFLICT.value()),
     MEMBER_NOT_FOUND("해당 멤버를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
     MEMORY_NOT_FOUND("해당 메모리를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
+    LIKE_NOT_FOUND("해당 좋아요를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
 
     // 인증/인가 에러 코드
     UNAUTHORIZED_ACCESS("권한이 없는 리소스에 접근하려고 합니다.", HttpStatus.FORBIDDEN.value()),
