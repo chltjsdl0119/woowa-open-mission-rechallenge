@@ -2,6 +2,7 @@ package com.mapofmemory.memory.presentation;
 
 import com.mapofmemory.global.dto.CommonResponse;
 import com.mapofmemory.global.dto.PageResponse;
+import com.mapofmemory.like.domain.service.LikeService;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
 import com.mapofmemory.memory.application.dto.UpdateMemoryRequest;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemoryController {
 
     private final MemoryService memoryService;
+    private final LikeService likeService;
 
     @PostMapping
     public ResponseEntity<CommonResponse<Long>> createMemory(@RequestParam Long memberId, @RequestBody CreateMemoryRequest request) {
@@ -55,5 +57,11 @@ public class MemoryController {
     public ResponseEntity<CommonResponse<Void>> deleteMemory(@PathVariable Long memoryId, @RequestParam Long memberId) {
         memoryService.deleteMemory(memoryId, memberId);
         return ResponseEntity.ok(CommonResponse.onSuccess(null));
+    }
+
+    @PostMapping("/{memoryId}/like")
+    public ResponseEntity<CommonResponse<Long>> likeMemory(@PathVariable Long memoryId, @RequestParam Long memberId) {
+        Long likeId = likeService.likeMemory(memberId, memoryId);
+        return ResponseEntity.ok(CommonResponse.onSuccess(likeId));
     }
 }
