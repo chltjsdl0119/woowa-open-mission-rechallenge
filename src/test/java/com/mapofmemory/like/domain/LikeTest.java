@@ -12,15 +12,15 @@ class LikeTest {
     @Test
     @DisplayName("Like 객체 생성 테스트")
     void Like_객체_생성_테스트() {
-        // Given
+        // given
         Long likeId = 1L;
 
-        // When
+        // when
         Like like = Like.builder()
                 .id(1L)
                 .build();
 
-        // Then
+        // then
         assertNotNull(like);
         assertEquals(likeId, like.getId());
     }
