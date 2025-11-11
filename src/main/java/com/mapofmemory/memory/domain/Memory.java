@@ -1,6 +1,8 @@
 package com.mapofmemory.memory.domain;
 
 import com.mapofmemory.global.domain.BaseTimeEntity;
+import com.mapofmemory.global.exception.BusinessException;
+import com.mapofmemory.global.exception.GeneralErrorCode;
 import com.mapofmemory.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,4 +39,15 @@ public class Memory extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void validateMember(Long memberId) {
+        if (!this.member.getId().equals(memberId)) {
+            throw new BusinessException(GeneralErrorCode.UNAUTHORIZED_ACCESS);
+        }
+    }
 }

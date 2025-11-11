@@ -13,6 +13,9 @@ public enum GeneralErrorCode implements ErrorCode {
     MEMBER_NOT_FOUND("해당 멤버를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
     MEMORY_NOT_FOUND("해당 메모리를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
 
+    // 인증/인가 에러 코드
+    UNAUTHORIZED_ACCESS("권한이 없는 리소스에 접근하려고 합니다.", HttpStatus.FORBIDDEN.value()),
+
     // 4xx 에러 코드
     BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST.value()),
     INVALID_STATE("잘못된 상태입니다.", HttpStatus.BAD_REQUEST.value()),

@@ -8,6 +8,7 @@ import com.mapofmemory.member.domain.Member;
 import com.mapofmemory.member.domain.repository.MemberRepository;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
+import com.mapofmemory.memory.application.dto.UpdateMemoryRequest;
 import com.mapofmemory.memory.domain.Memory;
 import com.mapofmemory.memory.domain.repository.MemoryRepository;
 import com.mapofmemory.memory.domain.service.MemoryService;
@@ -57,5 +58,18 @@ public class MemoryServiceImpl implements MemoryService {
         Page<Memory> memoryPage = memoryRepository.findAllByMember(member, pageable);
 
         return PageResponse.of(memoryPage, MemoryInfoResponse::from);
+    }
+
+    @Transactional
+    @Override
+    public MemoryInfoResponse updateMemory(Long memoryId, Long MemberId, UpdateMemoryRequest request) {
+        Memory memory = memoryRepository.findMemoryById(memoryId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
+
+        memory.validateMember(MemberId);
+
+        memory.update(request.title(), request.content());
+
+        return ConverterUtils.map(memory, MemoryInfoResponse::from);
     }
 }

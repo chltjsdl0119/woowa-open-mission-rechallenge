@@ -3,6 +3,7 @@ package com.mapofmemory.memory.domain.service;
 import com.mapofmemory.global.dto.PageResponse;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
+import com.mapofmemory.memory.application.dto.UpdateMemoryRequest;
 import org.springframework.data.domain.Pageable;
 
 public interface MemoryService {
@@ -12,4 +13,6 @@ public interface MemoryService {
     MemoryInfoResponse findMemoryById(Long memoryId);
 
     PageResponse<MemoryInfoResponse> findAllByMemberId(Long memberId, Pageable pageable);
+
+    MemoryInfoResponse updateMemory(Long memoryId, Long MemberId, UpdateMemoryRequest request);
 }
