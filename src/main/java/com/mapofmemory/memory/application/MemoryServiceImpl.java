@@ -1,5 +1,6 @@
 package com.mapofmemory.memory.application;
 
+import com.mapofmemory.global.dto.PageResponse;
 import com.mapofmemory.global.exception.BusinessException;
 import com.mapofmemory.global.exception.GeneralErrorCode;
 import com.mapofmemory.global.util.ConverterUtils;
@@ -11,6 +12,8 @@ import com.mapofmemory.memory.domain.Memory;
 import com.mapofmemory.memory.domain.repository.MemoryRepository;
 import com.mapofmemory.memory.domain.service.MemoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +39,23 @@ public class MemoryServiceImpl implements MemoryService {
         return memoryRepository.save(memory).getId();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MemoryInfoResponse findMemoryById(Long memoryId) {
         Memory memory = memoryRepository.findMemoryById(memoryId)
                 .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
 
         return ConverterUtils.map(memory, MemoryInfoResponse::from);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public PageResponse<MemoryInfoResponse> findAllByMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMBER_NOT_FOUND));
+
+        Page<Memory> memoryPage = memoryRepository.findAllByMember(member, pageable);
+
+        return PageResponse.of(memoryPage, MemoryInfoResponse::from);
     }
 }

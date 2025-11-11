@@ -1,10 +1,13 @@
 package com.mapofmemory.memory.presentation;
 
 import com.mapofmemory.global.dto.CommonResponse;
+import com.mapofmemory.global.dto.PageResponse;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
 import com.mapofmemory.memory.domain.service.MemoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +32,12 @@ public class MemoryController {
     @GetMapping("/{memoryId}")
     public ResponseEntity<CommonResponse<MemoryInfoResponse>> getMemory(@RequestParam Long memoryId) {
         MemoryInfoResponse response = memoryService.findMemoryById(memoryId);
+        return ResponseEntity.ok(CommonResponse.onSuccess(response));
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<CommonResponse<PageResponse<MemoryInfoResponse>>> getMemoriesByMember(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
+        PageResponse<MemoryInfoResponse> response = memoryService.findAllByMemberId(memberId, pageable);
         return ResponseEntity.ok(CommonResponse.onSuccess(response));
     }
 }
