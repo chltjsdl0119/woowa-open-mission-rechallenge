@@ -11,13 +11,13 @@ class MemberTest {
     @Test
     @DisplayName("Member 객체 생성 테스트")
     void Member_객체_생성_테스트() {
-        // Given
+        // given
         Long memberId = 1L;
         String name = "testuser";
         String nickname = "testuser";
         int age = 26;
 
-        // When
+        // when
         Member member = Member.builder()
                 .id(memberId)
                 .name(name)
@@ -25,7 +25,7 @@ class MemberTest {
                 .age(age)
                 .build();
 
-        // Then
+        // then
         assertNotNull(member);
         assertEquals(memberId, member.getId());
         assertEquals(name, member.getName());

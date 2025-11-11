@@ -25,14 +25,14 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 핵심 MVP 도메인: `Member`, `Memory`, `Like`
 - 핵심 MVP API
-    - `POST /members`: 회원 가입
+    - `POST /members`: 회원 등록
     - `GET /members/{memberId}`: 회원 정보 조회
     - `POST /memories?memberId={memberId}`: 이야기 작성
-    - `GET /memories/{id}`: 이야기 단건 조회
-    - `GET /memories?lat=...`: 이야기 리스트 조회
-    - `PUT /memories/{id}?memberId={memberId}`: 이야기 수정
-    - `DELETE /memories/{id}?memberId={memberId}`: 이야기 삭제
-    - `POST /memories/{id}/like?memberId={memberId}`: 좋아요
+    - `GET /memories/{memoryId}`: 이야기 단건 조회
+    - `GET /memories?memberId={memberId}`: 이야기 리스트(페이지네이션) 조회
+    - `PUT /memories/{memoryId}?memberId={memberId}`: 이야기 수정
+    - `DELETE /memories/{memoryId}?memberId={memberId}`: 이야기 삭제
+    - `POST /memories/{memoryId}/like?memberId={memberId}`: 좋아요
     - `DELETE /memories/{id}/like?memberId={memberId}`: 좋아요 취소
 
 - 로컬 개발 환경 구축
