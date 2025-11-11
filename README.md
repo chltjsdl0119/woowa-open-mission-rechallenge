@@ -28,7 +28,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
     - `POST /members`: 회원 등록
     - `GET /members/{memberId}`: 회원 정보 조회
     - `POST /memories?memberId={memberId}`: 이야기 작성
-    - `GET /memories/{id}`: 이야기 단건 조회
+    - `GET /memories/{memoryId}`: 이야기 단건 조회
     - `GET /memories?lat=...`: 이야기 리스트 조회
     - `PUT /memories/{id}?memberId={memberId}`: 이야기 수정
     - `DELETE /memories/{id}?memberId={memberId}`: 이야기 삭제

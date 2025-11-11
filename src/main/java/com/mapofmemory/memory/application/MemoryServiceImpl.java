@@ -2,9 +2,11 @@ package com.mapofmemory.memory.application;
 
 import com.mapofmemory.global.exception.BusinessException;
 import com.mapofmemory.global.exception.GeneralErrorCode;
+import com.mapofmemory.global.util.ConverterUtils;
 import com.mapofmemory.member.domain.Member;
 import com.mapofmemory.member.domain.repository.MemberRepository;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
+import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
 import com.mapofmemory.memory.domain.Memory;
 import com.mapofmemory.memory.domain.repository.MemoryRepository;
 import com.mapofmemory.memory.domain.service.MemoryService;
@@ -32,5 +34,13 @@ public class MemoryServiceImpl implements MemoryService {
                 .build();
 
         return memoryRepository.save(memory).getId();
+    }
+
+    @Override
+    public MemoryInfoResponse findMemoryById(Long memoryId) {
+        Memory memory = memoryRepository.findMemoryById(memoryId)
+                .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
+
+        return ConverterUtils.map(memory, MemoryInfoResponse::from);
     }
 }
