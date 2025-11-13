@@ -1,7 +1,5 @@
 package com.mapofmemory.memory.presentation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapofmemory.like.domain.repository.LikeRepository;
 import com.mapofmemory.like.domain.service.LikeService;
 import com.mapofmemory.member.domain.Member;
 import com.mapofmemory.member.domain.repository.MemberRepository;
@@ -20,7 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
