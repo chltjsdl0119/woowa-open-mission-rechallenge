@@ -1,4 +1,4 @@
-package com.mapofmemory.global.config;
+package com.mapofmemory.config;
 
 import liquibase.changelog.IncludeAllFilter;
 
