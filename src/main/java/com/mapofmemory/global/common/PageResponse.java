@@ -1,4 +1,4 @@
-package com.mapofmemory.global.dto;
+package com.mapofmemory.global.common;
 
 import org.springframework.data.domain.Page;
 

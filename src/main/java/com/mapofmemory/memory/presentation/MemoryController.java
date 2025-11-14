@@ -1,7 +1,7 @@
 package com.mapofmemory.memory.presentation;
 
-import com.mapofmemory.global.dto.CommonResponse;
-import com.mapofmemory.global.dto.PageResponse;
+import com.mapofmemory.global.common.CommonResponse;
+import com.mapofmemory.global.common.PageResponse;
 import com.mapofmemory.like.domain.service.LikeService;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;

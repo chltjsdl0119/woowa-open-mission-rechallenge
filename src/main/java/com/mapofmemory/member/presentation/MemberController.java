@@ -1,6 +1,6 @@
 package com.mapofmemory.member.presentation;
 
-import com.mapofmemory.global.dto.CommonResponse;
+import com.mapofmemory.global.common.CommonResponse;
 import com.mapofmemory.member.application.dto.CreateMemberRequest;
 import com.mapofmemory.member.application.dto.MemberInfoResponse;
 import com.mapofmemory.member.domain.service.MemberService;
