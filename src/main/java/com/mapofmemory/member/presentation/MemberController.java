@@ -21,12 +21,14 @@ public class MemberController implements MemberApiDocs {
 
     private final MemberService memberService;
 
+    @Override
     @PostMapping
     public ResponseEntity<CommonResponse<Long>> createMember(@RequestBody CreateMemberRequest request) {
         Long memberId = memberService.createMember(request);
         return ResponseEntity.ok(CommonResponse.onSuccess(memberId));
     }
 
+    @Override
     @GetMapping("/{memberId}")
     public ResponseEntity<CommonResponse<MemberInfoResponse>> getMember(@PathVariable Long memberId) {
         MemberInfoResponse response = memberService.findMemberById(memberId);
