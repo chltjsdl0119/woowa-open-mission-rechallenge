@@ -4,6 +4,7 @@ import com.mapofmemory.global.common.CommonResponse;
 import com.mapofmemory.member.application.dto.CreateMemberRequest;
 import com.mapofmemory.member.application.dto.MemberInfoResponse;
 import com.mapofmemory.member.domain.service.MemberService;
+import com.mapofmemory.member.presentation.docs.MemberApiDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class MemberController implements MemberApiDocs {
 
     private final MemberService memberService;
 
