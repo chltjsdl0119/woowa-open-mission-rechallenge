@@ -1,6 +1,6 @@
 package com.mapofmemory.memory.application;
 
-import com.mapofmemory.global.dto.PageResponse;
+import com.mapofmemory.global.common.PageResponse;
 import com.mapofmemory.global.exception.BusinessException;
 import com.mapofmemory.global.exception.GeneralErrorCode;
 import com.mapofmemory.global.util.ConverterUtils;

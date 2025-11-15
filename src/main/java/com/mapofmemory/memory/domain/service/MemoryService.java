@@ -1,6 +1,6 @@
 package com.mapofmemory.memory.domain.service;
 
-import com.mapofmemory.global.dto.PageResponse;
+import com.mapofmemory.global.common.PageResponse;
 import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
 import com.mapofmemory.memory.application.dto.UpdateMemoryRequest;
