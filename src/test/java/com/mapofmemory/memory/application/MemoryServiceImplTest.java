@@ -53,7 +53,7 @@ class MemoryServiceImplTest {
         void 메모리를_생성한다() {
             // given
             Member member = Member.builder().id(1L).nickname("테스터").build();
-            CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용");
+            CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용", 37.1234, 127.5678);
             Memory savedMemory = Memory.builder().id(10L).title("제목").content("내용").member(member).build();
 
             given(memberRepository.findMemberById(1L)).willReturn(Optional.of(member));
@@ -73,7 +73,7 @@ class MemoryServiceImplTest {
         void 존재하지_않는_회원이면_예외가_발생한다() {
             // given
             given(memberRepository.findMemberById(any())).willReturn(Optional.empty());
-            CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용");
+            CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용", 37.1234, 127.5678);
 
             // when & then
             assertThatThrownBy(() -> memoryService.createMemory(1L, request))

@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +41,16 @@ public class Memory extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @DecimalMin("-90.0")
+    @DecimalMax("90.0")
+    @Column(nullable = false)
+    private double latitude;
+
+    @DecimalMin("-180.0")
+    @DecimalMax("180.0")
+    @Column(nullable = false)
+    private double longitude;
 
     public void update(String title, String content) {
         this.title = title;

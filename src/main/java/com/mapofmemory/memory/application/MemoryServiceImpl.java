@@ -35,6 +35,8 @@ public class MemoryServiceImpl implements MemoryService {
                 .title(request.title())
                 .content(request.content())
                 .member(member)
+                .latitude(request.latitude())
+                .longitude(request.longitude())
                 .build();
 
         return memoryRepository.save(memory).getId();
