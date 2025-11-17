@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemoryServiceImpl implements MemoryService {
@@ -60,6 +62,22 @@ public class MemoryServiceImpl implements MemoryService {
         Page<Memory> memoryPage = memoryRepository.findAllByMember(member, pageable);
 
         return PageResponse.of(memoryPage, MemoryInfoResponse::from);
+    }
+
+    @Override
+    public List<MemoryInfoResponse> findMemoriesInMap(double lat, double lng, double range) {
+        double minLat = lat - range;
+        double maxLat = lat + range;
+        double minLng = lng - range;
+        double maxLng = lng + range;
+
+        List<Memory> memories = memoryRepository.findAllByLatitudeBetweenAndLongitudeBetween(
+                minLat, maxLat, minLng, maxLng
+        );
+
+        return memories.stream()
+                .map(MemoryInfoResponse::from)
+                .toList();
     }
 
     @Transactional

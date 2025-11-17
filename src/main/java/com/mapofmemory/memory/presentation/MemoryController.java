@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/memories")
 @RequiredArgsConstructor
@@ -48,6 +50,17 @@ public class MemoryController implements MemoryApiDocs {
     @GetMapping
     public ResponseEntity<CommonResponse<PageResponse<MemoryInfoResponse>>> getMemoriesByMember(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
         PageResponse<MemoryInfoResponse> response = memoryService.findAllByMemberId(memberId, pageable);
+        return ResponseEntity.ok(CommonResponse.onSuccess(response));
+    }
+
+    @Override
+    @GetMapping("/map")
+    public ResponseEntity<CommonResponse<List<MemoryInfoResponse>>> getMemoriesInMap(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam(defaultValue = "0.02") double range
+    ) {
+        List<MemoryInfoResponse> response = memoryService.findMemoriesInMap(lat, lng, range);
         return ResponseEntity.ok(CommonResponse.onSuccess(response));
     }
 

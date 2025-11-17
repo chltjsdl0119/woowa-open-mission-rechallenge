@@ -30,6 +30,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
     - `POST /memories?memberId={memberId}`: 기억 작성
     - `GET /memories/{memoryId}`: 기억 단건 조회
     - `GET /memories?memberId={memberId}`: 기억 리스트(페이지네이션) 조회
+    - `GET /memories/map?lat=${lat}&lng=${lng}&range=${range}`: 지도 기반 기억 조회
     - `PUT /memories/{memoryId}?memberId={memberId}`: 기억 수정
     - `DELETE /memories/{memoryId}?memberId={memberId}`: 기억 삭제
     - `POST /memories/{memoryId}/like?memberId={memberId}`: 좋아요
@@ -68,12 +69,13 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 ## 추후 정리해야할 목록
 
-### 고도화 선정 이유
+## 고도화 선정 이유
 
-### 적용한 고도화 전략
+## 적용한 고도화 전략
 
-### 성능 측정
+## 성능 측정
 
+### 고도화 적용 전 측정 결과
 | **항목** | **고도화 적용 전** | **고도화 적용 후** | **개선율** |
 | --- | --- | --- | --- |
 | **평균 응답 속도** (ms) | `(측정값)` | `(측정값)` | `(계산값)` |

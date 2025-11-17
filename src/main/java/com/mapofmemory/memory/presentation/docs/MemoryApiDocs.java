@@ -7,6 +7,7 @@ import com.mapofmemory.memory.application.dto.CreateMemoryRequest;
 import com.mapofmemory.memory.application.dto.MemoryInfoResponse;
 import com.mapofmemory.memory.application.dto.UpdateMemoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Tag(name = "Memory API", description = "기억 관련 API Document")
 public interface MemoryApiDocs {
@@ -62,6 +65,15 @@ public interface MemoryApiDocs {
     )
     @ApiCommonResponse
     ResponseEntity<CommonResponse<PageResponse<MemoryInfoResponse>>> getMemoriesByMember(@RequestParam Long memberId, @PageableDefault Pageable pageable);
+
+    @Operation(summary = "지도 기반 기억 조회", description = "지도 상의 특정 위치와 범위 내에 있는 기억들을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    @ApiCommonResponse
+    ResponseEntity<CommonResponse<List<MemoryInfoResponse>>> getMemoriesInMap(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam(defaultValue = "0.02") double range
+    );
 
     @Operation(
             summary = "기억 수정",
