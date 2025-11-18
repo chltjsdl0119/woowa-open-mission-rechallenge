@@ -148,8 +148,41 @@ class MemoryControllerTest {
                     .andExpect(jsonPath("$.data.totalElements").value(1))
                     .andExpect(jsonPath("$.data.content[0].id").value(testMemory.getId()));
         }
-    }
 
+        @Test
+        @DisplayName("가짜 인증: 위도, 경도, 범위 필터링을 통해 이야기 목록을 반환한다")
+        void 이야기_목록_조회_위치필터링_성공() throws Exception {
+            // given
+            Memory farMemory = memoryRepository.save(
+                    Memory.builder()
+                            .title("근처 기억 제목")
+                            .content("근처 기억 내용")
+                            .member(testMember)
+                            .latitude(38.9)
+                            .longitude(-123.1)
+                            .build()
+            );
+
+            // when
+            ResultActions actions = mockMvc.perform(
+                    get("/memories")
+                            .param("memberId", String.valueOf(testMember.getId()))
+                            .param("latitude", "37.7749")
+                            .param("longitude", "-122.4194")
+                            .param("radius", "1")
+                            .param("page", "0")
+                            .param("size", "10")
+                            .accept(MediaType.APPLICATION_JSON)
+            ).andDo(print());
+
+            // then (CommonResponse<PageResponse<...>> 검증)
+            actions.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.totalElements").value(2))
+                    .andExpect(jsonPath("$.data.content[0].id").value(testMemory.getId()))
+                    .andExpect(jsonPath("$.data.content[1].id").value(farMemory.getId()));
+        }
+    }
 
     @Nested
     @DisplayName("이야기 수정 API (PUT /memories/{memoryId})")

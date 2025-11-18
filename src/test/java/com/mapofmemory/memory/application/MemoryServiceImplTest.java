@@ -151,6 +151,58 @@ class MemoryServiceImplTest {
     }
 
     @Nested
+    @DisplayName("findMemoriesInMap 메서드는")
+    class FindMemoriesInMap {
+        @Test
+        @DisplayName("지도 범위 내의 기억 조회 성공 - 서울 시청 기준")
+        void findMemoriesInMap_seoulRange_success() {
+            // Given: 서울 시청 기준
+            double lat = 37.5665;
+            double lng = 126.9780;
+            double range = 0.05;
+
+            double minLat = lat - range;
+            double maxLat = lat + range;
+            double minLng = lng - range;
+            double maxLng = lng + range;
+
+            Member member = Member.builder().id(1L).build();
+
+            Memory memory1 = Memory.builder()
+                    .id(1L)
+                    .title("서울 기억 1")
+                    .content("광화문 근처")
+                    .latitude(37.5700)
+                    .longitude(126.9768)
+                    .member(member)
+                    .build();
+
+            Memory memory2 = Memory.builder()
+                    .id(2L)
+                    .title("서울 기억 2")
+                    .content("종로 근처")
+                    .latitude(37.5680)
+                    .longitude(126.9820)
+                    .member(member)
+                    .build();
+
+            when(memoryRepository.findAllByLatitudeBetweenAndLongitudeBetween(
+                    minLat, maxLat, minLng, maxLng
+            )).thenReturn(List.of(memory1, memory2));
+
+            // When
+            List<MemoryInfoResponse> responses =
+                    memoryService.findMemoriesInMap(lat, lng, range);
+
+            // Then
+            assertThat(responses).hasSize(2);
+
+            assertThat(responses.get(0).title()).isEqualTo("서울 기억 1");
+            assertThat(responses.get(1).title()).isEqualTo("서울 기억 2");
+        }
+    }
+
+    @Nested
     @DisplayName("updateMemory 메서드는")
     class UpdateMemory {
 

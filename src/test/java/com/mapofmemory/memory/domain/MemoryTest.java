@@ -16,12 +16,16 @@ class MemoryTest {
         Long memoryId = 1L;
         String title = "제목";
         String content = "내용";
+        float latitude = 37.1234f;
+        float longitude = 127.5678f;
 
         // when
         Memory memory = Memory.builder()
                 .id(memoryId)
                 .title(title)
                 .content(content)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
 
         // then
@@ -29,6 +33,8 @@ class MemoryTest {
         assertEquals(memoryId, memory.getId());
         assertEquals(title, memory.getTitle());
         assertEquals(content, memory.getContent());
+        assertEquals(latitude, memory.getLatitude());
+        assertEquals(longitude, memory.getLongitude());
     }
 
     @Test
@@ -39,6 +45,8 @@ class MemoryTest {
                 .id(1L)
                 .title("이전의 제목")
                 .content("이전의 내용")
+                .latitude(37.1234f)
+                .longitude(127.5678f)
                 .build();
 
         String newTitle = "새로운 제목";
@@ -69,6 +77,8 @@ class MemoryTest {
                 .title("제목")
                 .content("내용")
                 .member(member)
+                .latitude(37.1234f)
+                .longitude(127.5678f)
                 .build();
 
         // when & then
