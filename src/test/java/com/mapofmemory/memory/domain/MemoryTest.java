@@ -14,14 +14,18 @@ class MemoryTest {
     void Memory_객체_생성_테스트() {
         // given
         Long memoryId = 1L;
-        String title = "Test Memory";
-        String content = "This is a test memory content.";
+        String title = "제목";
+        String content = "내용";
+        float latitude = 37.1234f;
+        float longitude = 127.5678f;
 
         // when
         Memory memory = Memory.builder()
                 .id(memoryId)
                 .title(title)
                 .content(content)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
 
         // then
@@ -29,6 +33,8 @@ class MemoryTest {
         assertEquals(memoryId, memory.getId());
         assertEquals(title, memory.getTitle());
         assertEquals(content, memory.getContent());
+        assertEquals(latitude, memory.getLatitude());
+        assertEquals(longitude, memory.getLongitude());
     }
 
     @Test
@@ -37,12 +43,14 @@ class MemoryTest {
         // given
         Memory memory = Memory.builder()
                 .id(1L)
-                .title("Old Title")
-                .content("Old Content")
+                .title("이전의 제목")
+                .content("이전의 내용")
+                .latitude(37.1234f)
+                .longitude(127.5678f)
                 .build();
 
-        String newTitle = "New Title";
-        String newContent = "New Content";
+        String newTitle = "새로운 제목";
+        String newContent = "새로운 내용";
 
         // when
         memory.update(newTitle, newContent);
@@ -59,16 +67,18 @@ class MemoryTest {
         Long memberId = 1L;
         Member member = Member.builder()
                 .id(memberId)
-                .name("testuser")
-                .nickname("testuser")
+                .name("이름")
+                .nickname("닉네임")
                 .age(26)
                 .build();
 
         Memory memory = Memory.builder()
                 .id(1L)
-                .title("Test Memory")
-                .content("This is a test memory content.")
+                .title("제목")
+                .content("내용")
                 .member(member)
+                .latitude(37.1234f)
+                .longitude(127.5678f)
                 .build();
 
         // when & then

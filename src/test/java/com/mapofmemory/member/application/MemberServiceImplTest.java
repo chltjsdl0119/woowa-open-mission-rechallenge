@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 @DisplayName("MemberServiceImpl 단위 테스트")
 @ExtendWith(MockitoExtension.class)
 class MemberServiceImplTest {
+
     @Mock
     private MemberRepository memberRepository;
 
@@ -38,15 +39,15 @@ class MemberServiceImplTest {
         @DisplayName("닉네임이 중복되지 않으면 회원을 저장하고 ID를 반환한다")
         void 닉네임_중복_없음_회원_저장_성공() {
             // given
-            CreateMemberRequest request = new CreateMemberRequest("홍길동", "길동이", 25);
+            CreateMemberRequest request = new CreateMemberRequest("이름", "닉네임", 25);
             Member savedMember = Member.builder()
                     .id(1L)
-                    .name("홍길동")
-                    .nickname("길동이")
+                    .name("이름")
+                    .nickname("닉네임")
                     .age(25)
                     .build();
 
-            given(memberRepository.existsByNickname("길동이")).willReturn(false);
+            given(memberRepository.existsByNickname("닉네임")).willReturn(false);
             given(memberRepository.save(org.mockito.ArgumentMatchers.any(Member.class))).willReturn(savedMember);
 
             // when
@@ -61,8 +62,8 @@ class MemberServiceImplTest {
         @DisplayName("닉네임이 중복되면 BusinessException을 던진다")
         void 닉네임_중복시_예외_발생() {
             // given
-            CreateMemberRequest request = new CreateMemberRequest("홍길동", "길동이", 25);
-            given(memberRepository.existsByNickname("길동이")).willReturn(true);
+            CreateMemberRequest request = new CreateMemberRequest("이름", "닉네임", 25);
+            given(memberRepository.existsByNickname("닉네임")).willReturn(true);
 
             // when & then
             assertThatThrownBy(() -> memberService.createMember(request))
@@ -81,8 +82,8 @@ class MemberServiceImplTest {
             // given
             Member member = Member.builder()
                     .id(1L)
-                    .name("홍길동")
-                    .nickname("길동이")
+                    .name("이름")
+                    .nickname("닉네임")
                     .age(25)
                     .build();
 
@@ -92,8 +93,8 @@ class MemberServiceImplTest {
             MemberInfoResponse response = memberService.findMemberById(1L);
 
             // then
-            assertThat(response.name()).isEqualTo("홍길동");
-            assertThat(response.nickname()).isEqualTo("길동이");
+            assertThat(response.name()).isEqualTo("이름");
+            assertThat(response.nickname()).isEqualTo("닉네임");
             assertThat(response.age()).isEqualTo(25);
         }
 

@@ -45,10 +45,10 @@ class LikeServiceImplTest {
     class LikeMemory {
 
         @Test
-        @DisplayName("회원과 메모리가 존재하면 좋아요를 저장한다")
+        @DisplayName("회원과 기억이 존재하면 좋아요를 저장한다")
         void 좋아요를_저장한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉").build();
+            Member member = Member.builder().id(1L).nickname("닉네임").build();
             Memory memory = Memory.builder().id(10L).title("제목").build();
             Like savedLike = Like.builder().id(100L).member(member).memory(memory).build();
 
@@ -94,10 +94,10 @@ class LikeServiceImplTest {
     class UnlikeMemory {
 
         @Test
-        @DisplayName("회원과 메모리가 존재하고 좋아요가 존재하면 삭제한다")
+        @DisplayName("회원과 기억이 존재하고 좋아요가 존재하면 삭제한다")
         void 좋아요를_삭제한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉").build();
+            Member member = Member.builder().id(1L).nickname("닉네임").build();
             Memory memory = Memory.builder().id(10L).title("제목").build();
             Like like = Like.builder().id(100L).member(member).memory(memory).build();
 

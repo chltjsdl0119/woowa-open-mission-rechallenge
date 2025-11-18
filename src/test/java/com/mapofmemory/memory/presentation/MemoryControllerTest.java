@@ -52,16 +52,18 @@ class MemoryControllerTest {
     @BeforeEach
     void setUp() {
         testMember = memberRepository.save(
-                Member.builder().name("테스트유저").nickname("테스터").age(25).build()
+                Member.builder().name("이름").nickname("닉네임").age(25).build()
         );
         otherMember = memberRepository.save(
-                Member.builder().name("다른유저").nickname("해커").age(30).build()
+                Member.builder().name("다른 회원 이름").nickname("해커").age(30).build()
         );
         testMemory = memoryRepository.save(
                 Memory.builder()
-                        .title("테스트 제목")
-                        .content("테스트용 이야기 내용")
+                        .title("제목")
+                        .content("내용")
                         .member(testMember)
+                        .latitude(37.7749)
+                        .longitude(-122.4194)
                         .build()
         );
     }
@@ -71,13 +73,13 @@ class MemoryControllerTest {
     class 이야기_작성 {
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 정상적인 요청 시 이야기를 생성하고 ID를 반환한다")
+        @DisplayName("가짜 인증: 정상적인 요청 시 이야기를 생성하고 ID를 반환한다")
         void 이야기_작성_성공() throws Exception {
             // given
             String requestJson = """
                     {
-                        "title": "새로 작성된 제목",
-                        "content": "새로 작성된 이야기"
+                        "title": "제목",
+                        "content": "내용"
                     }
                     """;
 
@@ -116,8 +118,8 @@ class MemoryControllerTest {
             actions.andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data.id").value(memoryId))
-                    .andExpect(jsonPath("$.data.title").value("테스트 제목"))
-                    .andExpect(jsonPath("$.data.content").value("테스트용 이야기 내용"));
+                    .andExpect(jsonPath("$.data.title").value("제목"))
+                    .andExpect(jsonPath("$.data.content").value("내용"));
         }
     }
 
@@ -126,10 +128,10 @@ class MemoryControllerTest {
     class 이야기_목록_조회 {
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 특정 회원이 작성한 이야기 목록을 페이징하여 반환한다")
+        @DisplayName("가짜 인증: 특정 회원이 작성한 이야기 목록을 페이징하여 반환한다")
         void 이야기_목록_조회_성공() throws Exception {
             // given
-            memoryRepository.save(Memory.builder().title("다른 유저 제목").content("다른 유저 글").member(otherMember).build());
+            memoryRepository.save(Memory.builder().title("다른 기억 제목").content("다른 기억 내용").member(otherMember).build());
 
             // when
             ResultActions actions = mockMvc.perform(
@@ -146,21 +148,54 @@ class MemoryControllerTest {
                     .andExpect(jsonPath("$.data.totalElements").value(1))
                     .andExpect(jsonPath("$.data.content[0].id").value(testMemory.getId()));
         }
-    }
 
+        @Test
+        @DisplayName("가짜 인증: 위도, 경도, 범위 필터링을 통해 이야기 목록을 반환한다")
+        void 이야기_목록_조회_위치필터링_성공() throws Exception {
+            // given
+            Memory farMemory = memoryRepository.save(
+                    Memory.builder()
+                            .title("근처 기억 제목")
+                            .content("근처 기억 내용")
+                            .member(testMember)
+                            .latitude(38.9)
+                            .longitude(-123.1)
+                            .build()
+            );
+
+            // when
+            ResultActions actions = mockMvc.perform(
+                    get("/memories")
+                            .param("memberId", String.valueOf(testMember.getId()))
+                            .param("latitude", "37.7749")
+                            .param("longitude", "-122.4194")
+                            .param("radius", "1")
+                            .param("page", "0")
+                            .param("size", "10")
+                            .accept(MediaType.APPLICATION_JSON)
+            ).andDo(print());
+
+            // then (CommonResponse<PageResponse<...>> 검증)
+            actions.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.totalElements").value(2))
+                    .andExpect(jsonPath("$.data.content[0].id").value(testMemory.getId()))
+                    .andExpect(jsonPath("$.data.content[1].id").value(farMemory.getId()));
+        }
+    }
 
     @Nested
     @DisplayName("이야기 수정 API (PUT /memories/{memoryId})")
     class 이야기_수정 {
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 자신의 이야기를 성공적으로 수정한다")
+        @DisplayName("가짜 인증: 자신의 이야기를 성공적으로 수정한다")
         void 이야기_수정_성공() throws Exception {
             // given
             String requestJson = """
                     {
-                        "title": "수정된 제목",
-                        "content": "수정된 이야기 내용"
+                        "title": "새로운 제목",
+                        "content": "새로운 내용"
                     }
                     """;
 
@@ -176,12 +211,12 @@ class MemoryControllerTest {
             actions.andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data.id").value(testMemory.getId()))
-                    .andExpect(jsonPath("$.data.title").value("수정된 제목"))
-                    .andExpect(jsonPath("$.data.content").value("수정된 이야기 내용"));
+                    .andExpect(jsonPath("$.data.title").value("새로운 제목"))
+                    .andExpect(jsonPath("$.data.content").value("새로운 내용"));
         }
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 남의 이야기를 수정하려 하면 Forbidden 에러가 발생한다")
+        @DisplayName("가짜 인증: 남의 이야기를 수정하려 하면 Forbidden 에러가 발생한다")
         void 이야기_수정_실패_권한없음() throws Exception {
             // given
             String requestJson = """
@@ -209,7 +244,7 @@ class MemoryControllerTest {
     class 이야기_삭제 {
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 자신의 이야기를 성공적으로 삭제한다")
+        @DisplayName("가짜 인증: 자신의 이야기를 성공적으로 삭제한다")
         void 이야기_삭제_성공() throws Exception {
             // when
             ResultActions actions = mockMvc.perform(
@@ -224,7 +259,7 @@ class MemoryControllerTest {
         }
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 남의 이야기를 삭제하려 하면 Forbidden 에러가 발생한다")
+        @DisplayName("가짜 인증: 남의 이야기를 삭제하려 하면 Forbidden 에러가 발생한다")
         void 이야기_삭제_실패_권한없음() throws Exception {
             // when
             ResultActions actions = mockMvc.perform(
@@ -242,7 +277,7 @@ class MemoryControllerTest {
     class 이야기_좋아요 {
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 회원이 이야기를 성공적으로 '좋아요'한다")
+        @DisplayName("가짜 인증: 회원이 이야기를 성공적으로 '좋아요'한다")
         void 이야기_좋아요_성공() throws Exception {
             // when
             ResultActions actions = mockMvc.perform(
@@ -268,7 +303,7 @@ class MemoryControllerTest {
         }
 
         @Test
-        @DisplayName("v3.2 가짜 인증: 회원이 '좋아요'를 성공적으로 취소한다")
+        @DisplayName("가짜 인증: 회원이 '좋아요'를 성공적으로 취소한다")
         void 이야기_좋아요_취소_성공() throws Exception {
             // when
             ResultActions actions = mockMvc.perform(
