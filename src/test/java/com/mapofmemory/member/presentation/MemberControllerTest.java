@@ -47,7 +47,7 @@ class MemberControllerTest {
         @DisplayName("정상적인 요청 시 회원을 생성하고 ID를 반환한다")
         void 회원_생성_성공() throws Exception {
             // given (준비)
-            CreateMemberRequest request = new CreateMemberRequest("홍길동", "길동이", 25);
+            CreateMemberRequest request = new CreateMemberRequest("이름", "닉네임", 25);
             String requestJson = objectMapper.writeValueAsString(request);
 
             // when (실행)
@@ -74,8 +74,8 @@ class MemberControllerTest {
         void setUp() {
             savedMember = memberRepository.save(
                     Member.builder()
-                            .name("홍길동")
-                            .nickname("길동이")
+                            .name("이름")
+                            .nickname("닉네임")
                             .age(26)
                             .build()
             );
@@ -97,8 +97,8 @@ class MemberControllerTest {
             actions.andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data.id").value(memberId))
-                    .andExpect(jsonPath("$.data.name").value("홍길동"))
-                    .andExpect(jsonPath("$.data.nickname").value("길동이"))
+                    .andExpect(jsonPath("$.data.name").value("이름"))
+                    .andExpect(jsonPath("$.data.nickname").value("닉네임"))
                     .andExpect(jsonPath("$.data.age").value(26));
         }
 

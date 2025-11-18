@@ -49,10 +49,10 @@ class MemoryServiceImplTest {
     class CreateMemory {
 
         @Test
-        @DisplayName("회원이 존재하면 메모리를 생성한다")
+        @DisplayName("회원이 존재하면 기억을 생성한다")
         void 메모리를_생성한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("테스터").build();
+            Member member = Member.builder().id(1L).nickname("닉네임").build();
             CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용", 37.1234, 127.5678);
             Memory savedMemory = Memory.builder().id(10L).title("제목").content("내용").member(member).build();
 
@@ -87,10 +87,10 @@ class MemoryServiceImplTest {
     class FindMemoryById {
 
         @Test
-        @DisplayName("메모리가 존재하면 정보를 반환한다")
+        @DisplayName("기억이 존재하면 정보를 반환한다")
         void 메모리를_조회한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉").build();
+            Member member = Member.builder().id(1L).nickname("닉네임").build();
             Memory memory = Memory.builder().id(2L).title("제목").content("내용").member(member).build();
             given(memoryRepository.findMemoryById(2L)).willReturn(Optional.of(memory));
 
@@ -104,7 +104,7 @@ class MemoryServiceImplTest {
         }
 
         @Test
-        @DisplayName("메모리가 존재하지 않으면 예외가 발생한다")
+        @DisplayName("기억 존재하지 않으면 예외가 발생한다")
         void 존재하지_않는_메모리면_예외발생() {
             given(memoryRepository.findMemoryById(2L)).willReturn(Optional.empty());
 
@@ -119,10 +119,10 @@ class MemoryServiceImplTest {
     class FindAllByMemberId {
 
         @Test
-        @DisplayName("회원의 메모리 목록을 페이지로 반환한다")
+        @DisplayName("회원의 기억 목록을 페이지로 반환한다")
         void 메모리_목록을_반환한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉").build();
+            Member member = Member.builder().id(1L).nickname("닉네임").build();
             Memory memory = Memory.builder().id(10L).title("제목").content("내용").member(member).build();
 
             Page<Memory> page = new PageImpl<>(List.of(memory));
@@ -155,11 +155,11 @@ class MemoryServiceImplTest {
     class UpdateMemory {
 
         @Test
-        @DisplayName("작성자 본인이면 메모리 내용을 수정한다")
+        @DisplayName("작성자 본인이면 기억 내용을 수정한다")
         void 메모리_내용을_수정한다() {
             // given
-            Memory memory = spy(Memory.builder().id(2L).title("old").content("old").member(Member.builder().id(1L).build()).build());
-            UpdateMemoryRequest request = new UpdateMemoryRequest("new", "new content");
+            Memory memory = spy(Memory.builder().id(2L).title("이전의 제목").content("이전의 내용").member(Member.builder().id(1L).build()).build());
+            UpdateMemoryRequest request = new UpdateMemoryRequest("새로운 제목", "새로운 내용");
 
             given(memoryRepository.findMemoryById(2L)).willReturn(Optional.of(memory));
 
@@ -168,14 +168,14 @@ class MemoryServiceImplTest {
 
             // then
             verify(memory).validateMember(1L);
-            verify(memory).update("new", "new content");
+            verify(memory).update("새로운 제목", "새로운 내용");
         }
 
         @Test
-        @DisplayName("존재하지 않는 메모리면 예외가 발생한다")
+        @DisplayName("존재하지 않는 기억이면 예외가 발생한다")
         void 존재하지_않는_메모리면_예외발생() {
             given(memoryRepository.findMemoryById(2L)).willReturn(Optional.empty());
-            UpdateMemoryRequest request = new UpdateMemoryRequest("t", "c");
+            UpdateMemoryRequest request = new UpdateMemoryRequest("새로운 제목", "새로운 내용");
 
             assertThatThrownBy(() -> memoryService.updateMemory(2L, 1L, request))
                     .isInstanceOf(BusinessException.class)
@@ -188,7 +188,7 @@ class MemoryServiceImplTest {
     class DeleteMemory {
 
         @Test
-        @DisplayName("작성자 본인이면 메모리를 삭제한다")
+        @DisplayName("작성자 본인이면 기억을 삭제한다")
         void 메모리를_삭제한다() {
             Memory memory = spy(Memory.builder().id(3L).member(Member.builder().id(1L).build()).build());
             given(memoryRepository.findMemoryById(3L)).willReturn(Optional.of(memory));
@@ -200,7 +200,7 @@ class MemoryServiceImplTest {
         }
 
         @Test
-        @DisplayName("존재하지 않는 메모리면 예외가 발생한다")
+        @DisplayName("존재하지 않는 기억이면 예외가 발생한다")
         void 존재하지_않는_메모리면_예외발생() {
             given(memoryRepository.findMemoryById(3L)).willReturn(Optional.empty());
 

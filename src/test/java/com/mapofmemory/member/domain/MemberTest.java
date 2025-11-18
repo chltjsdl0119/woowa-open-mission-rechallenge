@@ -13,8 +13,8 @@ class MemberTest {
     void Member_객체_생성_테스트() {
         // given
         Long memberId = 1L;
-        String name = "testuser";
-        String nickname = "testuser";
+        String name = "이름";
+        String nickname = "닉네임";
         int age = 26;
 
         // when
