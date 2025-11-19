@@ -1,4 +1,4 @@
-<img width="1838" height="1401" alt="k6-read-list-test" src="https://github.com/user-attachments/assets/0058e440-e0be-4887-87fa-374d95c1331f" /># [우아한 테크 코스 4-5주차 오픈미션] 기억의 지도(Map-of-Memory) 프로젝트 재도전
+[우아한 테크 코스 4-5주차 오픈미션] 기억의 지도(Map-of-Memory) 프로젝트 재도전
 
 “MVP 우선, 고도화를 추가로”
 
