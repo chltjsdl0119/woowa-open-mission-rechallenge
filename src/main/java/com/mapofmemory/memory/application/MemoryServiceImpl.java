@@ -71,7 +71,7 @@ public class MemoryServiceImpl implements MemoryService {
         double minLng = lng - range;
         double maxLng = lng + range;
 
-        List<Memory> memories = memoryRepository.findAllByLatitudeBetweenAndLongitudeBetween(
+        List<Memory> memories = memoryRepository.findAllInMapWithIndexHint(
                 minLat, maxLat, minLng, maxLng
         );
 

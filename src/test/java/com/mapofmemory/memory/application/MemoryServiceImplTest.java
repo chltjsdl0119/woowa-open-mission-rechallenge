@@ -186,7 +186,7 @@ class MemoryServiceImplTest {
                     .member(member)
                     .build();
 
-            when(memoryRepository.findAllByLatitudeBetweenAndLongitudeBetween(
+            when(memoryRepository.findAllInMapWithIndexHint(
                     minLat, maxLat, minLng, maxLng
             )).thenReturn(List.of(memory1, memory2));
 
