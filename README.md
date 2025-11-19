@@ -1,4 +1,4 @@
-# [우아한 테크 코스 4-5주차 오픈미션] 기억의 지도(Map-of-Memory) 프로젝트 재도전
+<img width="1838" height="1401" alt="k6-read-list-test" src="https://github.com/user-attachments/assets/0058e440-e0be-4887-87fa-374d95c1331f" /># [우아한 테크 코스 4-5주차 오픈미션] 기억의 지도(Map-of-Memory) 프로젝트 재도전
 
 “MVP 우선, 고도화를 추가로”
 
@@ -96,7 +96,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 사진:
 
-![k6-read-single](./images/k6-read-single.png)
+<img width="1838" height="1401" alt="k6-read-single-test" src="https://github.com/user-attachments/assets/d64d611d-228b-4c37-8da3-c7119a430a35" />
 
 ---
 
@@ -114,7 +114,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 사진:
 
-![k6-read-list](./images/k6-read-list.png)
+<img width="1838" height="1401" alt="k6-read-list-test" src="https://github.com/user-attachments/assets/d7e16390-bad1-46f3-aaab-3d4667b77963" />
 
 ---
 
@@ -133,7 +133,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 사진:
 
-![k6-read-map](./images/k6-read-map.png)
+<img width="1838" height="1401" alt="k6-read-map-test" src="https://github.com/user-attachments/assets/654e5dca-b21a-448e-9585-1c0fca9ed62d" />
 
 ---
 
@@ -151,7 +151,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 사진:
 
-![k6-stress](./images/k6-stress.png)
+<img width="1994" height="1401" alt="k6-stress-test" src="https://github.com/user-attachments/assets/a2ab1b9a-9e1d-42b3-a514-1f4d600e3f4d" />
 
 ---
 
