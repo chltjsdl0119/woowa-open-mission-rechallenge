@@ -6,7 +6,7 @@ function randomIntBetween(min, max) {
 }
 
 export const options = {
-    vus: 10000,
+    vus: 10,
     duration: '30s',
 };
 
