@@ -100,7 +100,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 ---
 
-**시나리오 2: 목록 조회 (Read List)**
+**시나리오 2: 목록 조회(k6-read-list)**
 
 - 목적: GET /memories?memberId={memberId} (FK 조회 + 페이징) 성능 측정
 
@@ -118,7 +118,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 ---
 
-**시나리오 3: 지도 범위 조회 (Read Map)**
+**시나리오 3: 지도 범위 조회(k6-read-map)**
 
 - 목적: GET /memories/map?lat={lat}&lng={lng}&range={range} (인덱스 X, Full Table Scan 유도) 성능 측정
 
@@ -137,7 +137,7 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 ---
 
-**시나리오 4: 스트레스 테스트 (Stress)**
+**시나리오 4: 스트레스 테스트(k6-stress)**
 
 - 목적: 지도 범위 조회 API에 극한의 부하를 주어 시스템의 임계점과 병목 현상을 파악합니다.
 
@@ -187,7 +187,6 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 | Read List (p95): 32.13 ms |  |       |       |
 
 **실행 계획**
-실행 계획 (Day 10):
 
 1. Read Single API (GET /memories/{id})를 중심으로 캐싱을 적용합니다.
 2. Redis 컨테이너를 인프라에 추가하고 Spring Data Redis를 연동합니다.
