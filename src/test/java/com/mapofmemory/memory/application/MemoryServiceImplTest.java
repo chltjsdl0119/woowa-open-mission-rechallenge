@@ -1,5 +1,6 @@
 package com.mapofmemory.memory.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapofmemory.global.common.PageResponse;
 import com.mapofmemory.global.exception.BusinessException;
 import com.mapofmemory.global.exception.GeneralErrorCode;
@@ -20,6 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +44,15 @@ class MemoryServiceImplTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Mock
+    private ValueOperations<String, Object> valueOperations;
+
+    @Mock
+    private ObjectMapper objectMapper;
+
     @InjectMocks
     private MemoryServiceImpl memoryService;
 
@@ -52,9 +64,16 @@ class MemoryServiceImplTest {
         @DisplayName("회원이 존재하면 기억을 생성한다")
         void 메모리를_생성한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉네임").build();
+            Member member = Member.builder().id(1L).name("이름").nickname("닉네임").age(26).build();
             CreateMemoryRequest request = new CreateMemoryRequest("제목", "내용", 37.1234, 127.5678);
-            Memory savedMemory = Memory.builder().id(10L).title("제목").content("내용").member(member).build();
+            Memory savedMemory = Memory.builder()
+                    .id(10L)
+                    .title(request.title())
+                    .content(request.content())
+                    .member(member)
+                    .latitude(request.latitude())
+                    .longitude(request.longitude())
+                    .build();
 
             given(memberRepository.findMemberById(1L)).willReturn(Optional.of(member));
             given(memoryRepository.save(any(Memory.class))).willReturn(savedMemory);
@@ -84,33 +103,84 @@ class MemoryServiceImplTest {
 
     @Nested
     @DisplayName("findMemoryById 메서드는")
-    class FindMemoryById {
+    class FindMemoryInfoById {
 
         @Test
-        @DisplayName("기억이 존재하면 정보를 반환한다")
-        void 메모리를_조회한다() {
+        @DisplayName("캐시에 데이터가 없으면 DB를 호출 후 결과를 캐시하고 DTO를 반환한다 (Cache Miss)")
+        void 캐시_미스_시_DB를_호출한다() {
             // given
-            Member member = Member.builder().id(1L).nickname("닉네임").build();
-            Memory memory = Memory.builder().id(2L).title("제목").content("내용").member(member).build();
-            given(memoryRepository.findMemoryById(2L)).willReturn(Optional.of(memory));
+            Member testMember = Member.builder().id(1L).name("이름").nickname("닉네임").age(26).build();
+            Memory testMemory = Memory.builder()
+                    .id(1L)
+                    .title("제목")
+                    .content("내용")
+                    .member(testMember)
+                    .latitude(37.1234)
+                    .longitude(127.5678)
+                    .build();
+
+            String cacheKey = "memory:1";
+
+            // ★ opsForValue() 반환값 Stubbing 추가
+            when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
+            when(valueOperations.get(cacheKey)).thenReturn(null);
+            when(memoryRepository.findById(1L)).thenReturn(Optional.of(testMemory));
+
+            // when
+            MemoryInfoResponse response = memoryService.findMemoryById(1L);
+
+            // then
+            assertThat(response).isNotNull();
+            assertThat(response.title()).isEqualTo("제목");
+
+            verify(memoryRepository, times(1)).findById(1L);
+            verify(valueOperations, times(1)).set(eq(cacheKey), any(), anyLong(), any());
+        }
+
+        @Test
+        @DisplayName("두 번째 호출 시, DB를 거치지 않고 캐시 데이터를 반환한다 (Cache Hit)")
+        void 캐시_히트_시_DB_호출을_건너뛴다() {
+            // given
+            String cacheKey = "memory:2";
+
+            MemoryInfoResponse expectedResponse = new MemoryInfoResponse(
+                    2L, "제목", "내용"
+            );
+
+            // ★ opsForValue() 반환값 Stubbing 추가
+            when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
+            when(valueOperations.get(cacheKey)).thenReturn(expectedResponse);
+            when(objectMapper.convertValue(any(), eq(MemoryInfoResponse.class))).thenReturn(expectedResponse);
 
             // when
             MemoryInfoResponse response = memoryService.findMemoryById(2L);
 
             // then
             assertThat(response).isNotNull();
-            assertThat(response.title()).isEqualTo("제목");
-            verify(memoryRepository).findMemoryById(2L);
+            verify(memoryRepository, never()).findById(2L);
+            verify(valueOperations, times(1)).get(cacheKey);
         }
 
         @Test
-        @DisplayName("기억 존재하지 않으면 예외가 발생한다")
+        @DisplayName("기억이 존재하지 않으면 예외가 발생한다 (Cache Miss)")
         void 존재하지_않는_메모리면_예외발생() {
-            given(memoryRepository.findMemoryById(2L)).willReturn(Optional.empty());
+            // given
+            String cacheKey = "memory:2";
 
+            // ★ opsForValue() 반환값 Stubbing 추가
+            when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
+            when(valueOperations.get(cacheKey)).thenReturn(null);
+            when(memoryRepository.findById(2L)).thenReturn(Optional.empty());
+
+            // when / then
             assertThatThrownBy(() -> memoryService.findMemoryById(2L))
                     .isInstanceOf(BusinessException.class)
                     .hasMessage(GeneralErrorCode.MEMORY_NOT_FOUND.getMessage());
+
+            verify(memoryRepository, times(1)).findById(2L);
         }
     }
 
