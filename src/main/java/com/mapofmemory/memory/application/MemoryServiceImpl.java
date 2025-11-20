@@ -63,7 +63,7 @@ public class MemoryServiceImpl implements MemoryService {
         Memory memory = memoryRepository.findById(memoryId)
                 .orElseThrow(() -> new BusinessException(GeneralErrorCode.MEMORY_NOT_FOUND));
 
-        MemoryInfoResponse response = MemoryInfoResponse.from(memory);
+        MemoryInfoResponse response = ConverterUtils.map(memory, MemoryInfoResponse::from);
 
         redisTemplate.opsForValue().set(key, response, 5, TimeUnit.MINUTES);
 
