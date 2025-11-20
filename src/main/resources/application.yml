@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: map-of-memory
+
+  docker:
+    compose:
+      enabled: false
