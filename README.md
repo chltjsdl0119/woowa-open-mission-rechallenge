@@ -217,8 +217,8 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 3. 결과: 인덱스 강제 적용을 통해 DB의 쿼리 실행 시간이 최적화되었으며, 최대 응답 시간 기준 81% 개선이라는 대성공을 거두었습니다.
 
 - 사진:
-
-![전략 A 진행 후 k6-read-map-test]()
+                                                    
+<img width="1641" height="1401" alt="A 진행 후 k6-read-map" src="https://github.com/user-attachments/assets/0babc9b4-74d3-4245-b678-c60b7314395e" />
 
 ---
 
@@ -241,7 +241,6 @@ GCP, 즉 인프라 라는 변수가 사라졌고, 정해진 시간 안에 ‘동
 
 - 사진:
 
-![전략 A 진행 후 k6-read-single-test]()
-
+<img width="1641" height="1401" alt="B 진행 후 k6-read-single" src="https://github.com/user-attachments/assets/ffd64473-24cd-4db6-9fa8-6d733501b6e8" />
 
 ---
