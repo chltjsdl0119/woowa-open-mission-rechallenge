@@ -38,6 +38,12 @@ dependencies {
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Cache
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
     // Liquibase
     implementation 'org.liquibase:liquibase-core'
 
